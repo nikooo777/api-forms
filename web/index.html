@@ -1,1 +1,90 @@
-its alive
+<html>
+  <head>
+    <link href='/normalize.css' rel='stylesheet' type='text/css'>
+    <style>
+      body {
+        max-width: 800px;
+        margin: 0 auto;
+        padding-top: 3rem;
+      }
+      p {
+        margin-bottom: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Send Template Emails</h1>
+    <form id="form">
+      <p>
+      <label>Auth Token</label><br>
+      <input type=text name="auth_token" />
+      </p>
+
+      <p>
+      <label>Subject</label><br>
+      <input type=text name="subject" />
+      </p>
+
+      <p>
+      <label>Template</label><br>
+      <input type=text name="template" />
+      </p>
+
+      <p>
+      <label>Recipients</label><br>
+      <input type="radio" name="recipients" value="verified" checked> Verified - users with verified emails who have installed the app<br>
+      <input type="radio" name="recipients" value="unclaimed"> Unclaimed - users who are reward-eligible but have never claimed a reward
+      (aka never used the app)<br>
+      <input type="radio" name="recipients" value="custom"> Custom<br>
+      <textarea name="recipients" cols=80 id="emails" placeholder="one@gmail.com,two@gmail.com,..."></textarea>
+      </p>
+
+      <p>
+      <label>Confirm?</label><br>
+      <select name="confirm">
+        <option value="" selected>testing</option>
+        <option value="yes">REALLY SEND IT</option>
+      </select>
+      </p>
+
+      <input type="submit">
+
+    </form>
+    <pre id="response"></pre>
+    <script src="/jquery-3.2.1.js"></script>
+    <script>
+      $(document).ready(function() {
+        var form = $("#form");
+        var resp = $("#response");
+
+        var onChange = function(event) {
+           var on = $("input[type=radio][name=recipients]:checked").val() != "custom";
+           $("#emails").prop("disabled", on).prop("readonly", on);
+         };
+
+        form.on("change", "input", onChange);
+        onChange();
+
+        form.on("submit", function(event) {
+          event.preventDefault();
+	  resp.text("Sending request...");
+          $("input[name=recipients][value=custom]").prop("disabled", true);
+          $.ajax({
+                url: 'https://api.lbry.io/template/send',
+                type : "POST",
+                dataType : 'json',
+                data : form.serialize(),
+                success : function(result) {
+                  resp.text(JSON.stringify(result));
+                },
+                error: function(xhr, response, text) {
+                  //console.log(xhr, resp, text);
+                  resp.text(JSON.stringify(xhr.responseJSON));
+                }
+            })
+          $("input[name=recipients][value=custom]").prop("disabled", false);
+        });
+      });
+    </script>
+  </body>
+</html>
