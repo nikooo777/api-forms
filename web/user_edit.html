@@ -82,10 +82,12 @@
 
         if (window.location.host.indexOf("localhost") === 0) {
           host = "http://localhost:8080";
-          document.body.querySelector("h1").insertAdjacentHTML('afterend', '<div class="alert alert-info">Sending requests to ' + host + '</div>');
+          $('h1').after('<div class="alert alert-info">Sending requests to ' + host + '</div>');
         } else {
           host = "https://api.lbry.io";
         }
+
+        form.find('input[name="auth_token"]').val(window.localStorage.getItem("auth_token"));
 
         form.on("submit", function (event) {
           event.preventDefault();
@@ -100,6 +102,8 @@
                    null :
                    field;
           }));
+
+          window.localStorage.setItem("auth_token", form.find('[name="auth_token"]').val());
 
           $.ajax({
             url: host + '/user/edit',
