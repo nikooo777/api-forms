@@ -7,6 +7,7 @@
   </head>
   <body>
     <div class="container" style="max-width: 800px">
+      <a href="/">⬅ Back to all forms</a>
       <h1>Send Invite</h1>
 
       <div id="alert" class="alert show" style="visibility: hidden;">
@@ -41,7 +42,7 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
 
       </form>
     </div>
@@ -50,33 +51,12 @@
     <script src="/js/jquery-3.2.1.js"></script>
     <script src="/js/tether.min.js"></script>
     <script src="/js/bootstrap.js"></script>
+    <script src="/js/shared.js"></script>
     <script>
       $(document).ready(function () {
         var form = $("#form");
-        var alert = $("#alert");
-
         form.on("submit", function (event) {
-          event.preventDefault();
-
-          alert.css("visibility", "hidden");
-          form.find('button[type=submit]').text("Sending...").addClass("disabled");
-
-          $.ajax({
-            url: 'https://api.lbry.io/user/invite',
-            type: "POST",
-            dataType: 'json',
-            data: form.serialize(),
-            success: function (result) {
-              alert.addClass('alert-success').removeClass("alert-danger").find('.alert-content').text(JSON.stringify(result.data, null, 2));
-            },
-            error: function (xhr, response, text) {
-              alert.addClass('alert-danger').removeClass("alert-success").find('.alert-content').text(xhr.responseJSON.error);
-            },
-            complete: function() {
-              alert.css("visibility", "visible")
-              form.find('button[type=submit]').text("Send").removeClass("disabled");
-            },
-          })
+          window.lbryforms.submit(event, form, '/user/invite');
         });
       });
     </script>

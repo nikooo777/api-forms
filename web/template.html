@@ -7,6 +7,7 @@
   </head>
   <body>
     <div class="container" style="max-width: 800px">
+      <a href="/">⬅ Back to all forms</a>
       <h1>Send Template Emails</h1>
 
       <div id="alert" class="alert show" style="visibility: hidden;">
@@ -61,7 +62,7 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
 
       </form>
     </div>
@@ -70,10 +71,10 @@
     <script src="/js/jquery-3.2.1.js"></script>
     <script src="/js/tether.min.js"></script>
     <script src="/js/bootstrap.js"></script>
+    <script src="/js/shared.js"></script>
     <script>
       $(document).ready(function () {
         var form = $("#form");
-        var alert = $("#alert");
 
         var onChange = function (event) {
           var on = form.find("input[type=radio][name=recipients]:checked").val() != "custom";
@@ -84,29 +85,12 @@
         onChange();
 
         form.on("submit", function (event) {
-          event.preventDefault();
-
-          alert.css("visibility", "hidden");
-          form.find('button[type=submit]').text("Sending...").addClass("disabled");
           form.find("input[name=recipients][value=custom]").prop("disabled", true);
 
-          $.ajax({
-            url: 'https://api.lbry.io/template/send',
-            type: "POST",
-            dataType: 'json',
-            data: form.serialize(),
-            success: function (result) {
-              alert.addClass('alert-success').removeClass("alert-danger").find('.alert-content').text(result.data);
-            },
-            error: function (xhr, response, text) {
-              alert.addClass('alert-danger').removeClass("alert-success").find('.alert-content').text(xhr.responseJSON.error);
-            },
-            complete: function() {
-              alert.css("visibility", "visible")
-              form.find('button[type=submit]').text("Send").removeClass("disabled");
+          window.lbryforms.submit(event, form, '/template/send')
+            .always(function(){
               form.find("input[name=recipients][value=custom]").prop("disabled", false);
-            },
-          })
+            });
         });
       });
     </script>
