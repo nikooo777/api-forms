@@ -45,6 +45,26 @@
           </div>
         </div>
 
+        <div class="form-group mb-4">
+          <label>Reward Approved?</label>
+          <div class="form-check">
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="is_reward_approved" value="" checked>
+              <em>leave as is</em> </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="is_reward_approved" value="auto">
+              Let the code decide </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="is_reward_approved" value="yes">
+              Yes </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="is_reward_approved" value="no">
+              No </label>
+          </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">Update</button>
 
       </form>
@@ -58,6 +78,14 @@
       $(document).ready(function () {
         var form = $("#form");
         var alert = $("#alert");
+        var host;
+
+        if (window.location.host.indexOf("localhost") === 0) {
+          host = "http://localhost:8080";
+          document.body.querySelector("h1").insertAdjacentHTML('afterend', '<div class="alert alert-info">Sending requests to ' + host + '</div>');
+        } else {
+          host = "https://api.lbry.io";
+        }
 
         form.on("submit", function (event) {
           event.preventDefault();
@@ -65,11 +93,19 @@
           alert.css("visibility", "hidden");
           form.find('button[type=submit]').text("Working...").addClass("disabled");
 
+          const data = $.param($.map(form.serializeArray(), function(field, index) {
+            // if field is empty and doesnt have data-submit-empty=1, skip it entirely.
+            // for radios/checkboxes, any input having data-submit-empty=1 will cause the field to be included.
+            return (field.value == "" && form.find("[name="+field.name+"]").filter(function(){return $(this).data('submit-empty')}).length == 0) ?
+                   null :
+                   field;
+          }));
+
           $.ajax({
-            url: 'https://api.lbry.io/user/edit',
+            url: host + '/user/edit',
             type: "POST",
             dataType: 'json',
-            data: form.serialize(),
+            data: data,
             success: function (result) {
               alert.addClass('alert-success').removeClass("alert-danger").find('.alert-content').text(JSON.stringify(result.data, null, 2));
             },
