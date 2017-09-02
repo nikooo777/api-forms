@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/shared.css">
   </head>
   <body>
     <div class="container" style="max-width: 800px">
       <a href="/">⬅ Back to all forms</a>
-      <h1>Edit User</h1>
+      <h1>Approve User</h1>
 
       <div id="alert" class="alert show" style="visibility: hidden;">
         <button type="button" class="close" onclick="$(this).closest('.alert').css('visibility', 'hidden')">
@@ -46,6 +47,10 @@
           </div>
         </div>
 
+        <div class="form-group mb-4">
+          <label>Comment</label> <textarea class="form-control" name="comment"></textarea>
+        </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
 
       </form>
@@ -60,7 +65,7 @@
       $(document).ready(function () {
         var form = $("#form");
         form.on("submit", function (event) {
-          window.lbryforms.submit(event, form, '/user/edit');
+          window.lbryforms.submit(event, form, '/user/approve');
         });
       });
     </script>
