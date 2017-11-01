@@ -32,27 +32,27 @@
         </div>
 
         <div class="form-group mb-4">
-          <label>Recipients</label>
+          <label>Tag</label>
           <div class="form-check">
-            <label class="form-check-label"> <input class="form-check-input" type="radio" name="recipients" value="rewardable" checked>
-              Rewardable - users who can claim rewards </label>
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="tag" value="rewardable" checked>
+              rewardable - users who can claim rewards </label>
           </div>
           <div class="form-check">
-            <label class="form-check-label"> <input class="form-check-input" type="radio" name="recipients" value="unclaimed"> Unclaimed -
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="tag" value="unclaimed"> unclaimed -
               users who are reward-eligible but have never claimed a reward (aka never used the app) </label>
           </div>
           <div class="form-check">
-            <label class="form-check-label"> <input class="form-check-input" type="radio" name="recipients" value="everyone"> Everyone -
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="tag" value="everyone"> everyone -
               seriously. Be careful with this one. </label>
           </div>
           <div class="form-check">
-            <label class="form-check-label"> <input class="form-check-input" type="radio" name="recipients" value="custom"> Custom </label>
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="tag" value="custom"> other: </label>
+            <input type="text" name="tag" id="custom-tag" style="width: 40%" placeholder="tag name" />
           </div>
-          <textarea name="recipients" id="emails" style="width: 100%" placeholder="one@gmail.com,two@gmail.com,..."></textarea>
         </div>
 
         <div class="form-group mb-4">
-          <label>Mailgun Tag (optional)</label> <input class="form-control" type=text name="tag" />
+          <label>Mailgun Tag (optional)</label> <input class="form-control" type=text name="mailgun_tag" />
         </div>
 
         <div class="form-group mb-4">
@@ -82,19 +82,19 @@
         var form = $("#form");
 
         var onChange = function (event) {
-          var on = form.find("input[type=radio][name=recipients]:checked").val() != "custom";
-          $("#emails").prop("disabled", on).prop("readonly", on);
+          var on = form.find("input[type=radio][name=tag]:checked").val() != "custom";
+          $("#custom-tag").prop("disabled", on).prop("readonly", on);
         };
 
         form.on("change", "input", onChange);
         onChange();
 
         form.on("submit", function (event) {
-          form.find("input[name=recipients][value=custom]").prop("disabled", true);
+          form.find("input[name=tag][value=custom]").prop("disabled", true);
 
           window.lbryforms.submit(event, form, '/template/send')
             .always(function(){
-              form.find("input[name=recipients][value=custom]").prop("disabled", false);
+              form.find("input[name=tag][value=custom]").prop("disabled", false);
             });
         });
       });
