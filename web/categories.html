@@ -38,7 +38,7 @@
     <div class="form-group mb-4">
         <label>Action</label> <select id="action" class="" name="action">
         <option>new</option>
-        <option>update</option>
+        <option>edit</option>
         <option>delete</option></select>
     </div>
     <form id="form">
@@ -71,12 +71,12 @@
         form.on("submit", function (event) {
             var actionElement = document.getElementById("action")
             var action = actionElement.options[actionElement.selectedIndex].text;
-            window.lbryforms.submit(event, form, '/featured/category/'+action,true);
+            window.lbryforms.submit(event, form, '/featured_category/'+action,true);
         });
         var refreshForm = $("#refreshForm");
         var mytable = document.getElementById("table");
         refreshForm.on("submit",function (event){
-            window.lbryforms.refresh(event,refreshForm,mytable,'/featured/list_category',true);
+            window.lbryforms.refresh(event,refreshForm,mytable,'/featured_category/list',true);
         });
     });
 </script>

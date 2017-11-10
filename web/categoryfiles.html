@@ -41,7 +41,7 @@
     <div class="form-group mb-4">
         <label>Action</label> <select id="action" class="" name="action">
         <option>new</option>
-        <option>update</option>
+        <option>edit</option>
         <option>delete</option></select>
     </div>
     <form id="form">
@@ -59,13 +59,13 @@
             <label>Sequence Number</label><input class="form-control" type="number" name="sequence_number"/>
         </div>
         <div class="form-group mb-4">
-            <label>File Id</label> <input class="form-control" type=text name="file_id" />
+            <label>URL</label> <input class="form-control" type=text name="url" />
         </div>
         <div class="form-group mb-4">
-            <label>Start</label> <input class="form-control" type="text" name="start" placeholder="1-2-06 3:04:05PM">
+            <label>Start</label> <input class="form-control" type="text" name="start" placeholder="2006-01-02T15:04:05">
         </div>
         <div class="form-group mb-4">
-            <label>End</label> <input class="form-control" type="text" name="end" placeholder="1-2-06 3:04:05PM">
+            <label>End</label> <input class="form-control" type="text" name="end" placeholder="2006-01-02T15:04:05">
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -83,12 +83,12 @@
         form.on("submit", function (event) {
             var actionElement = document.getElementById("action")
             var action = actionElement.options[actionElement.selectedIndex].text;
-            window.lbryforms.submit(event, form, '/featured/file/'+action,true);
+            window.lbryforms.submit(event, form, '/featured_file/'+action,true);
         });
         var refreshForm = $("#refreshForm");
         var mytable = document.getElementById("table");
         refreshForm.on("submit",function (event){
-           window.lbryforms.refresh(event,refreshForm,mytable,'/featured/list_file',true);
+           window.lbryforms.refresh(event,refreshForm,mytable,'/featured_file/list',true);
         });
     });
 </script>
