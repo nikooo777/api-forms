@@ -20,34 +20,58 @@
 
       <form id="form">
         <div class="form-group mb-4">
-          <label>Auth Token</label> <input class="form-control" type=text name="auth_token" />
+          <label>Auth Token</label>
+          <input class="form-control" type=text name="auth_token" />
         </div>
 
         <div class="form-group mb-4">
-          <label>Subject</label> <input class="form-control" type=text name="subject" />
+          <label>Subject</label>
+          <input class="form-control" type=text name="subject" />
         </div>
 
         <div class="form-group mb-4">
-          <label>Template</label> <input class="form-control" type=text name="template" />
+          <label>Template</label>
+          <input class="form-control" type=text name="template" />
         </div>
 
         <div class="form-group mb-4">
           <label>Tag</label>
+          <input class="form-control" type=text name="tag" />
+        </div>
+
+        <div class="form-group mb-4">
+          <label>Verified Email?</label>
           <div class="form-check">
-            <label class="form-check-label"> <input class="form-check-input" type="radio" name="tag" value="rewardable" checked>
-              rewardable - users who can claim rewards </label>
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="verified" value="">
+              <em>don't filter on this attribute</em>
+            </label>
           </div>
           <div class="form-check">
-            <label class="form-check-label"> <input class="form-check-input" type="radio" name="tag" value="unclaimed"> unclaimed -
-              users who are reward-eligible but have never claimed a reward (aka never used the app) </label>
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="verified" value="yes" checked>
+              yes - only verified email addresses </label>
           </div>
           <div class="form-check">
-            <label class="form-check-label"> <input class="form-check-input" type="radio" name="tag" value="everyone"> everyone -
-              seriously. Be careful with this one. </label>
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="verified" value="no">
+              no - only unverified email addresses
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group mb-4">
+          <label>App Users?</label>
+          <div class="form-check">
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="installed" value="" checked>
+              <em>don't filter on this attribute</em>
+            </label>
           </div>
           <div class="form-check">
-            <label class="form-check-label"> <input class="form-check-input" type="radio" name="tag" value="custom"> other: </label>
-            <input type="text" name="tag" id="custom-tag" style="width: 40%" placeholder="tag name" />
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="installed" value="yes">
+              yes - only users who have run the app at least once </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label"> <input class="form-check-input" type="radio" name="installed" value="no">
+              no - only users who have never run the app
+            </label>
           </div>
         </div>
 
