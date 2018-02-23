@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/shared.css">
+</head>
+<body>
+    <div class="container" style="max-width: 800px">
+        <a href="/">⬅ Back to all forms</a>
+        <h1>Approve User</h1>
+
+        <div id="alert" class="alert show" style="visibility: hidden;">
+            <button type="button" class="close" onclick="$(this).closest('.alert').css('visibility', 'hidden')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="alert-content"></div>
+        </div>
+
+        <form id="form">
+            <div class="form-group mb-4">
+                <label>Auth Token</label> <input class="form-control" type="text" name="auth_token" />
+            </div>
+
+            <div class="form-group mb-4">
+                <label>First User ID</label> <input class="form-control" type="text" name="primary_user_id"/>
+            </div>
+
+            <div class="form-group mb-4">
+                <label>Second User ID</label> <input class="form-control" type="text" name="secondary_user_id"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="/js/jquery-3.2.1.js"></script>
+    <script src="/js/tether.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/shared.js"></script>
+    <script>
+        $(document).ready(function () {
+            var form = $("#form");
+            form.on("submit", function (event) {
+                window.lbryforms.submit(event, form, '/user/merge');
+            });
+        });
+    </script>
+</body>
+</html>
