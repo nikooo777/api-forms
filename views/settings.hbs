@@ -1,0 +1,73 @@
+<div class="container" style="max-width: 800px">
+    <a href="/">⬅ Back to all forms</a>
+    <h1>Settings</h1>
+
+    <div id="alert" class="alert show" style="visibility: hidden;">
+        <button type="button" class="close" onclick="$(this).closest('.alert').css('visibility', 'hidden')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="alert-content"></div>
+    </div>
+
+    <form id="load" class="mb-4">
+        <div class="form-group mb-4">
+            <label>Auth Token</label> <input class="form-control" type=text name="auth_token" />
+        </div>
+    </form>
+
+    <div id="setting_forms"></div>
+</div>
+
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="/javascripts/jquery-3.2.1.js"></script>
+<script src="/javascripts/tether.min.js"></script>
+<script src="/javascripts/bootstrap.js"></script>
+<script src="/javascripts/shared.js"></script>
+<script src="/javascripts/login_redirect.js"></script>
+<script>
+    function formHTML(name, value) {
+        return `
+<form>
+  <input type="hidden" name="name" value="` + name + `">
+  <div class="form-group mb-4">
+    <label>` + name + `</label>
+    <div class="form-check">
+      <label class="form-check-label"> <input class="form-check-input" type="radio" name="value" value="1"` + (value == 1 ? 'checked' : '') +`>
+      On </label>
+    </div>
+    <div class="form-check">
+      <label class="form-check-label"> <input class="form-check-input" type="radio" name="value" value="0"` + (value == 0 ? 'checked' : '') +`>
+       Off </label>
+    </div>
+  </div>
+</form>`;
+    }
+
+    $(document).ready(function () {
+        var loadForm = $("#load");
+        var settingForms = $("#setting_forms");
+
+        settingForms.on("change", "form", function(event) {
+            window.lbryforms.submit(event, $(this), '/flag/set', true);
+        });
+
+        loadForm.on("submit", function (event) {
+            event.preventDefault();
+            window.lbryforms.req("GET", '/flag/list', {
+                auth_token: $(this).find('[name="auth_token"]').val()
+            }).done(function (result) {
+                for (var name in result.data) {
+                    settingForms.append($(formHTML(name, result.data[name])))
+                }
+            });
+        });
+
+        var autosubmit = function() { loadForm.submit(); }
+        if (loadForm.find('[name="auth_token"]').val()) {
+            autosubmit()
+        } else {
+            setTimeout(autosubmit, 200);
+        }
+
+    });
+</script>

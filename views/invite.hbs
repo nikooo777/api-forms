@@ -1,0 +1,55 @@
+<div class="container" style="max-width: 800px">
+    <a href="/">⬅ Back to all forms</a>
+    <h1>Send Invite</h1>
+
+    <div id="alert" class="alert show" style="visibility: hidden;">
+        <button type="button" class="close" onclick="$(this).closest('.alert').css('visibility', 'hidden')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="alert-content"></div>
+    </div>
+
+    <form id="form">
+        <div class="form-group mb-4">
+            <label>Auth Token</label> <input class="form-control" type=text name="auth_token" />
+        </div>
+
+        <div class="form-group mb-4">
+            <label>Email</label> <input class="form-control" type=text name="email" />
+        </div>
+
+        <div class="form-group mb-4">
+            <label>Notify?</label>
+            <div class="form-check">
+                <label class="form-check-label"> <input class="form-check-input" type="radio" name="notify" value="no">
+                    Do not send invite email </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label"> <input class="form-check-input" type="radio" name="notify" value="yes" checked>
+                    Send invite email if not invited yet </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label"> <input class="form-check-input" type="radio" name="notify" value="resend">
+                    Send invite email even if already invited </label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+</div>
+
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="/javascripts/jquery-3.2.1.js"></script>
+<script src="/javascripts/tether.min.js"></script>
+<script src="/javascripts/bootstrap.js"></script>
+<script src="/javascripts/shared.js"></script>
+<script src="/javascripts/login_redirect.js"></script>
+<script>
+    $(document).ready(function () {
+        var form = $("#form");
+        form.on("submit", function (event) {
+            window.lbryforms.submit(event, form, '/user/invite');
+        });
+    });
+</script>

@@ -1,0 +1,7 @@
+{
+    "lbry_api": {
+        "host": "localhost",
+        "port": 8080
+    },
+    "dev": true
+}

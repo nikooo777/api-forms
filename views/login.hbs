@@ -1,0 +1,37 @@
+{{#unless success}}
+    <div id="login" class="container" style="max-width: 800px">
+    <h1>Login</h1>
+        {{#if error}}
+            <div id="alert" class="alert alert-danger show">
+                <button type="button" class="close" onclick="$(this).closest('.alert').css('visibility', 'hidden')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="alert-content">{{error}}</div>
+            </div>
+        {{/if}}
+    <form id="login-form" method="post">
+        <div class="form-group mb-4">
+            <label>Auth Token</label> <input id="auth_token" class="form-control" type=text name="auth_token" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+    {{/unless}}
+
+
+<script src="/javascripts/jquery-3.2.1.js"></script>
+<script src="/javascripts/tether.min.js"></script>
+<script src="/javascripts/bootstrap.js"></script>
+
+<script>
+    if(localStorage.getItem('auth_token') != null){
+        $(location).attr('href', '/index');
+    }
+</script>
+
+{{#if success}}
+    <script type="text/javascript">
+        localStorage.setItem('auth_token', '{{auth_token}}');
+        $(location).attr('href', '/index');
+    </script>
+{{/if}}
